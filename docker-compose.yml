@@ -1,12 +1,25 @@
-version: '3.3'
-
 services:
-  mongo:
-    image: mongo:4.4
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - 27017:27017
     volumes:
-      - ./mongo_data:/data/db
+      - mongo-data:/data/db # Use named volume instead of bind mount
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
