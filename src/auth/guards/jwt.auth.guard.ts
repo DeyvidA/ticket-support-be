@@ -23,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
       context.getHandler(),
     );
     if (isPublic) {
-      return true; // Allow public access
+      return true;
     }
 
     const request = context.switchToHttp().getRequest();
