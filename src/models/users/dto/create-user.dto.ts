@@ -5,6 +5,7 @@ import {
   MinLength,
   MaxLength,
   IsNotEmpty,
+  IsEmail,
 } from 'class-validator';
 import { IUser } from '../interfaces/user.interface';
 
@@ -19,15 +20,19 @@ export class CreateUserDto implements Partial<IUser> {
   })
   username: string;
 
+  @IsEmail({}, { message: 'Invalid email' })
+  @IsNotEmpty()
+  email: string;
+
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
   @ApiProperty({ example: 'password', description: 'The password of the user' })
   passwordHash: string;
 
-  @IsEnum(['user', 'admin', 'support_staff'])
+  @IsEnum(['customer', 'support', 'admin', 'superadmin'])
   @ApiProperty({ example: 'user', description: 'The role of the user' })
-  role: 'user' | 'admin' | 'support_staff';
+  role?: 'customer' | 'support' | 'admin' | 'superadmin';
 
   @IsNotEmpty()
   createdAt: Date;
