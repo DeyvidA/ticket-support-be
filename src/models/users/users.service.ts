@@ -14,6 +14,8 @@ export class UsersService {
     password: string,
     role: string,
   ): Promise<User> {
+    console.log('you are in the user service');
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 

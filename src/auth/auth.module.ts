@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 
@@ -7,6 +7,7 @@ import { UsersModule } from 'src/models/users/users.module';
 import { AuthController } from './controllers/auth.controller';
 import config from 'src/config';
 
+@Global()
 @Module({
   imports: [
     UsersModule,
