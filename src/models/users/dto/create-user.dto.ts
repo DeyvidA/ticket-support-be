@@ -7,9 +7,9 @@ import {
   IsNotEmpty,
   IsEmail,
 } from 'class-validator';
-import { IUser } from '../interfaces/user.interface';
+import { User } from 'src/schemas/user.schema';
 
-export class CreateUserDto implements Partial<IUser> {
+export class CreateUserDto implements Partial<User> {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
