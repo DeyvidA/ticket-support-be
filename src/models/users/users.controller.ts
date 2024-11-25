@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.auth.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -18,6 +19,7 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Public()
   @Post('create')
   async create(@Body() body: any) {
     const { username, email, password, role } = body;

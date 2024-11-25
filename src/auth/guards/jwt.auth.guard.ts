@@ -26,6 +26,7 @@ export class JwtAuthGuard implements CanActivate {
       return true;
     }
 
+    console.log('you are in the jwt auth guard');
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {

@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 
 export class LoginDto {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -13,7 +13,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     const user = await this.AuthService.validateUser(
-      loginDto.username,
+      loginDto.email,
       loginDto.password,
     );
 
