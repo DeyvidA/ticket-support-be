@@ -12,7 +12,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true,
   });
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3313);
 
   const config = new DocumentBuilder()
     .setTitle('NestJS API')
