@@ -22,20 +22,3 @@ export const databaseProviders = [
     },
   },
 ];
-
-//  provide: 'MONGO',
-//     useFactory: async (configService: ConfigType<typeof config>) => {
-//       const {
-//         connection,
-//         user,
-//         password,
-//         host,
-//         port,
-//         dbName,
-//       } = configService.mongo;
-//       const uri = `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`;
-//       const client = new MongoClient(uri);
-//       await client.connect();
-//       const database = client.db(dbName);
-//       return database;
-//     },
