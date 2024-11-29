@@ -20,5 +20,6 @@ export const databaseProviders = [
         throw error;
       }
     },
+    inject: [config.KEY],
   },
 ];
