@@ -24,6 +24,9 @@ export class Ticket extends Document {
   assignee_id: string;
 
   @Prop({ required: false })
+  comments: { content: string; user_id: string; created_at: Date }[];
+
+  @Prop({ required: false })
   tags: string[];
 
   @Prop({ default: Date.now })

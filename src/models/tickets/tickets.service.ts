@@ -15,8 +15,22 @@ export class TicketsService {
     return this.ticketModel.find();
   }
 
-  async findOne(id: string) {
-    return this.ticketModel.findOne({ _id: id });
+  async findOne(id: string, userId: string) {
+    const ticket = await this.ticketModel.findOne({ _id: id });
+
+    if (!ticket) {
+      return null;
+    }
+
+    ticket.comments = ticket.comments.map((comment) => {
+      return { ...comment, isCurrentUser: comment.user_id === userId };
+    });
+
+    return ticket;
+  }
+
+  async findByUserId(userId: string) {
+    return this.ticketModel.find({ user_id: userId });
   }
 
   async create(body: any) {
@@ -46,5 +60,18 @@ export class TicketsService {
     return this.ticketModel.deleteOne({
       _id: id,
     });
+  }
+
+  async addComment(id: string, userId: string, comment: string) {
+    const parsedComment = {
+      content: comment,
+      user_id: userId,
+      created_at: new Date(),
+    };
+
+    return this.ticketModel.updateOne(
+      { _id: id },
+      { $push: { comments: parsedComment } },
+    );
   }
 }
