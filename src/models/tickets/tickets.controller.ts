@@ -7,6 +7,7 @@ import {
   Body,
   Delete,
   Request,
+  Query,
 } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 
@@ -36,14 +37,14 @@ export class TicketsController {
   constructor(private readonly ticketService: TicketsService) {}
 
   @Get()
-  async findAll(@Request() req) {
+  async findAll(@Request() req, @Query() query) {
     const user = req.user;
     const isAdmin = user.role === 'admin';
 
     if (isAdmin) {
-      return this.ticketService.findAll();
+      return this.ticketService.findAll(query);
     } else {
-      return this.ticketService.findByUserId(user.sub);
+      return this.ticketService.findByUserId(user.sub, query);
     }
   }
 
@@ -83,6 +84,11 @@ export class TicketsController {
 
     const { content } = body;
     return this.ticketService.addComment(id, user.sub, content);
+  }
+
+  @Patch(':id/close')
+  async close(@Param('id') id: string) {
+    return this.ticketService.update(id, { status: 'closed' });
   }
 
   @Patch(':id/assign')

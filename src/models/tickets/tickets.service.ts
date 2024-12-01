@@ -4,6 +4,11 @@ import { Model } from 'mongoose';
 import { Ticket, TicketDocument } from 'src/schemas/tickets.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
 
+type FiltersType = {
+  title?: string | RegExp;
+  status?: string | RegExp;
+};
+
 @Injectable()
 export class TicketsService {
   constructor(
@@ -11,8 +16,18 @@ export class TicketsService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  async findAll() {
-    return this.ticketModel.find();
+  async findAll(filters) {
+    const query: FiltersType = {};
+
+    if (filters.search) {
+      query.title = new RegExp(filters.search, 'i');
+    }
+
+    if (filters.status && filters.status.toLowerCase() !== 'all') {
+      query.status = new RegExp(filters.status, 'i');
+    }
+
+    return this.ticketModel.find(query).exec();
   }
 
   async findOne(id: string, userId: string) {
@@ -29,8 +44,18 @@ export class TicketsService {
     return ticket;
   }
 
-  async findByUserId(userId: string) {
-    return this.ticketModel.find({ user_id: userId });
+  async findByUserId(userId: string, filters: any) {
+    const query: any = { user_id: userId };
+
+    if (filters.search) {
+      query.title = new RegExp(filters.search, 'i');
+    }
+
+    if (filters.status && filters.status.toLowerCase() !== 'all') {
+      query.status = new RegExp(filters.status, 'i');
+    }
+
+    return this.ticketModel.find(query).exec();
   }
 
   async create(body: any) {
