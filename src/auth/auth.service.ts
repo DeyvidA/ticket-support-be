@@ -33,6 +33,7 @@ export class AuthService {
       role: user.role,
       sub: user.id,
     };
+
     return {
       access_token: this.jwtService.sign(payload),
       user,
