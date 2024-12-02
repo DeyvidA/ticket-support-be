@@ -6,7 +6,7 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 
 type FiltersType = {
   title?: string | RegExp;
-  status?: string | RegExp;
+  status?: string;
 };
 
 @Injectable()
@@ -24,7 +24,7 @@ export class TicketsService {
     }
 
     if (filters.status && filters.status.toLowerCase() !== 'all') {
-      query.status = new RegExp(filters.status, 'i');
+      query.status = filters.status;
     }
 
     return this.ticketModel.find(query).exec();
@@ -52,7 +52,7 @@ export class TicketsService {
     }
 
     if (filters.status && filters.status.toLowerCase() !== 'all') {
-      query.status = new RegExp(filters.status, 'i');
+      query.status = filters.status;
     }
 
     return this.ticketModel.find(query).exec();
