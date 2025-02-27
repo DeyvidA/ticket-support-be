@@ -12,7 +12,7 @@ import config from 'src/config';
         const { database } = configService;
 
         return {
-          uri: `mongodb://${database.userName}:${database.password}@${database.host}:${database.port}`,
+          uri: `mongodb+srv://${database.userName}:${database.password}@${database.host}/?retryWrites=true&w=majority&appName=ts-development`,
           dbName: database.dbName,
         };
       },
